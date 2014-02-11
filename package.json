@@ -7,11 +7,19 @@
     "start": "nodemon -w . -w ./routes -w ./views  ./app.js"
   },
   "devDependencies": {
-		"nodemon": "*"
-	},
+    "nodemon": "*"
+  },
   "dependencies": {
     "express": "3.4.7",
-    "ejs": "*"
-
+    "ejs": "*",
+    "uuid": "~1.4.1",
+    "lodash": "~2.4.1",
+    "nedb": "~0.10.3",
+    "mkdirp": "~0.3.5",
+    "async": "~0.2.10",
+    "nodemailer": "~0.6.0",
+    "node-uuid": "~1.4.1",
+    "config": "~0.4.35",
+    "fs-extra": "~0.8.1"
   }
 }
