@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="Guruprasad Kora">
+
+<title>ORNL UniFam</title>
+
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.css" rel="stylesheet">
+
+<!-- Add custom CSS here -->
+<link href="css/datasettings.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="brand">UniFam</div>
+<div class="address-bar">Pipeline to Annotate Proteins</div>
+
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="index.html"></a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="/">Home</a></li>
+				<li><a href="/job">Submit a Job</a></li>
+				<li><a href="/locate">Locate Job</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container -->
+</nav>
+
+<div class="container">
+
+	<div class="row">
+		<div class="box">
+			<div class="col-lg-12 text-center">
+				<div id="carousel-example-generic" class="carousel slide">
+					<!-- Indicators -->
+					<ol class="carousel-indicators hidden-xs">
+						<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+					</ol>
+
+					<!-- Wrapper for slides -->
+					<div class="carousel-inner" style='height:500px;overflow:hidden;'>
+						<div class="item active">
+							<img class="img-responsive img-full" src="img/1.jpg" >
+						</div>
+						<div class="item">
+							<img class="img-responsive img-full" src="img/2.jpg" >
+						</div>
+						<div class="item">
+							<img class="img-responsive img-full" src="img/3.jpg" >
+						</div>
+					</div>
+
+					<!-- Controls -->
+					<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+						<span class="icon-prev"></span>
+					</a>
+					<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+						<span class="icon-next"></span>
+					</a>
+				</div>
+				<h1><small>Welcome to</small><br><span class="brand-name">UniFam Protein Annotation Pipeline</span><hr class="tagline-divider"><small></small></h1>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="box">
+			<div class="col-lg-12">
+				<hr>
+				<h2 class="intro-text text-center">UniFam <strong>Protein Annotatoin Pipeline</strong></h2>
+				<hr>
+				<hr class="visible-xs">
+				<p>A pipeline to annotate proteins with newly developed protein family database (UniFam) and to predict metabolic pathways for a genome is made available to users. <strong>UniFam</strong> is a new protein family database based on proteins in UniProt including SwissProt and Trembl. It annotates proteins on the full sequence level instead of on the domain level. 
+				</p>
+
+				<p>
+				User can either give a list of proteins as input for annotation to be used in downstream analysis, or provide a fully sequenced genome. In the latter case, Prodigal will be used to predict protein-coding genes in the genome and the coded proteins. UniFam is then used to annotate all these proteins. If desired, the pipeline can also predict metabolic pathways using PathoLogic module of Pathway-tools, with the all annotated proteins in a genome.
+				</p>
+
+				<p>
+				The output of the pipeline is a table of proteins with their function annotations, and a list of inferred pathways if specified.
+				</p>
+
+			</div>
+		</div>
+	</div>
+
+
+</div><!-- /.container -->
+
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<p>Copyright &copy; ORNL 2013</p>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- JavaScript -->
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/bootstrap.js"></script>
+<script>
+// Activates the Carousel
+$('.carousel').carousel({
+	interval: 5000
+})
+</script>
+
+</body>
+</html>
