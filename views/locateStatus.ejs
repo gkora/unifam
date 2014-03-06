@@ -50,13 +50,12 @@
         <div class="box">
           <div>
             <hr>
-            <h2 class="intro-text text-center">New Job <strong>Submission</strong></h2>
+            <h2 class="intro-text text-center">Job <strong>Status</strong></h2>
             <hr>
 						<div class='text-center'>
-							<img src='/img/submitted.png' /><br/></br>
-							<strong>Job Submitted</strong><br/>
-							Job Id  <strong><%= job.id %> </strong><br/></br>
-							Email sent to <%= job.email %> with URL to track progress.<br/><br/>
+							<i class="fa fa-search fa-2x"> Searching Job </i><br/></br>
+							<strong>Job Found</strong><br/>
+							Job Id  <span class="label label-primary"><%= id %> </span> <br/></br>
 							<h2> Current Status </h2>
 							<center>
 								<table class='text-center pull-center'>
@@ -80,17 +79,6 @@
 									</tr>
 								</table>
 							</center>
-
-
-
-							<!--
-							<p class='col-md-4'>
-								Your job request has been submitted. An email has been sent with the URL to track the progress of your job. Please
-								click the link provided in your email to locate your job. Based on the current queue status your job will be completed 
-								in 4-5 hours. Please check back with us soon. Save this job id to retrive your job quickly.
-							</p>
-							-->
-
 							
 						</div>
 

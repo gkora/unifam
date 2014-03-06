@@ -22,11 +22,11 @@ var transport = mail.createTransport("SMTP", {
 });
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.render('index');
 };
 
 exports.job = function(req, res){
-  res.render('job', { title: 'Express' });
+  res.render('job');
 };
 
 exports.jobpost = function(req, res) {
@@ -78,11 +78,11 @@ exports.jobpost = function(req, res) {
 			// Send email to the user
 			function(callback) {
 				
-				var body = _.template(CONFIG.SMTP.jobReceiveTemplate, { 'name': newJob.name, 'id': newJob.id});
+				var body = _.template(CONFIG.SMTP.jobReceiveTemplate.content, { 'name': newJob.name, 'id': newJob.id});
 				var mailOptions = {
 					from: CONFIG.SMTP.from,
 					to: newJob.email,
-					subject: 'UniFam: New Job Request',
+					subject: CONFIG.SMTP.jobReceiveTemplate.subject,
 					/*text: ""*/
 					html: body
 				}
@@ -110,9 +110,9 @@ exports.jobpost = function(req, res) {
 			], 
 			function(error, results) {
 				if (error) {
-					res.render('submitted', { job: newJob});
+					res.render('submitted', { error: error, job: newJob});
 				} else {
-					res.render('submitted', { job: newJob});
+					res.render('submitted', { error: null, job: newJob});
 				}
 	
 	});
@@ -120,5 +120,13 @@ exports.jobpost = function(req, res) {
 };
 
 exports.locate = function(req, res){
-  res.render('about', { title: 'Express' });
+  res.render('locate'); 
+};
+
+exports.locatepost = function(req, res){
+  res.render('locateStatus', {id: req.body.id}); 
+};
+
+exports.locateWithId = function(req, res){
+  res.render('locateStatus', {id: req.params.id}); 
 };
