@@ -34,6 +34,7 @@ app.get('/', routes.index);
 app.get('/job', routes.job);
 app.post('/job', routes.jobpost);
 app.get('/locate/:id', routes.locateWithId);
+app.get('/downloads', routes.downloads);
 app.get('/locate', routes.locate);
 app.post('/locate', routes.locatepost);
 

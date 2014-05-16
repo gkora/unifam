@@ -31,6 +31,8 @@ exports.job = function(req, res){
 
 exports.jobpost = function(req, res) {
 
+	console.dir(req.body);
+
 	var newJob = {};
 
 	newJob.id = uuid.v4();
@@ -117,6 +119,10 @@ exports.jobpost = function(req, res) {
 	
 	});
 
+};
+
+exports.downloads = function(req, res){
+  res.render('downloads'); 
 };
 
 exports.locate = function(req, res){
