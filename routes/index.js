@@ -11,6 +11,7 @@ var mkdir  = require('mkdirp');
 var path	 = require('path');
 var mail 	 = require('nodemailer');
 var fs 	 	 = require('fs-extra');
+var ini    = require('ini');
 
 var Datastore = require('nedb')
   , db = new Datastore({ filename: path.join(__dirname, '../', CONFIG.Database.location), autoload: true });
@@ -20,6 +21,13 @@ var transport = mail.createTransport("SMTP", {
 	secureConnection: false,
 	name: CONFIG.SMTP.name
 });
+
+// Search related files 
+var execTemplateFile = path.join(__dirname, '../', 'bin', 'execTemplate.sh');
+var execFile = 'exec.sh';
+
+
+
 
 exports.index = function(req, res){
   res.render('index');
@@ -96,6 +104,137 @@ exports.jobpost = function(req, res) {
 						callback(null, "Message sent: " + response.message);
 					}
 				});
+
+			},
+
+      // Create a properties file
+      function(callback) {
+
+        var configFile = CONFIG.configuration.configFileName;
+
+				var config = {};
+
+				//[prodigal]
+				config.prodigal= {};
+				config.prodigal.prodigalPath = CONFIG.configuration.prodigalPath;
+				config.prodigal.runOffEdge = 'True'
+				config.prodigal.maskNs = 'False'
+				config.prodigal.quiet = 'False'
+
+				if (req.body.jobType === 'single' ) {
+					config.prodigal.procedure = 'single';
+				} else {
+					config.prodigal.procedure = 'meta';
+				}
+
+				//config.prodigal.translationTable = req.body.translationTable;
+
+				//[RNAmmer]
+				config.RNAmmer= {};
+				config.RNAmmer.tRNAscanPath = CONFIG.configuration.RNAmmerPath;
+
+				//[tRNAscan]
+				config.tRNAscan= {};
+				config.tRNAscan.tRNAscanPath = CONFIG.configuration.tRNAscanPath;
+
+				//[hmmsearch]
+				config.hmmsearch= {};
+				config.hmmsearch.output = CONFIG.configuration.output;
+				config.hmmsearch.hmmsearchPath = CONFIG.configuration.hmmsearchPath;
+				config.hmmsearch.cpu = CONFIG.configuration.cpu;
+				config.hmmsearch.eval = req.body.hmmEval;
+
+				//[PathoLogic]
+				config.PathoLogic= {};
+				config.PathoLogic.PathoLogicPath = CONFIG.configuration.PathoLogicPath;
+				config.PathoLogic.PathwayLocalDir = CONFIG.configuration.PathwayLocalDir;
+				config.PathoLogic.organism = req.body.orgName;
+				config.PathoLogic.domain = req.body.pdomain;
+				config.PathoLogic.taxID = req.body.taxId;
+
+				//[UniFam]
+				config.UniFam= {};
+				config.UniFam.dataDir = CONFIG.configuration.dataDir;
+				config.UniFam.doParse = 'True';
+				config.UniFam.dohmmsearch = 'True';
+				if ( req.body.jobType === 'single' || req.body.jobType === 'meta' || req.body.jobType === 'pp' ) {
+					config.UniFam.database = 'prok';
+				} else if ( req.body.jobType === 'ep' ){
+					config.UniFam.database = 'euk';
+				} else {
+					config.UniFam.database = 'all';
+				}
+
+				if ( req.body.jobType === 'single' || req.body.jobType === 'meta' ) {
+					config.UniFam.inputFormat = 'contigs';
+					config.UniFam.doProdigal = 'True';
+				} else {
+					config.UniFam.inputFormat = 'proteins';
+					config.UniFam.doProdigal = 'False';
+				}
+
+				if ( req.body.jobType === 'single' ) {
+					config.UniFam.doPathway = 'True';
+					config.UniFam.doRNAmmer = 'True';
+					config.UniFam.dotRNAscan = 'True';
+				} else {
+					config.UniFam.doPathway = 'False';
+					config.UniFam.doRNAmmer = 'False';
+					config.UniFam.dotRNAscan = 'False';
+				}
+
+				config.UniFam.workDir = newJob.jobDirectory;
+				config.UniFam.tmpDir = newJob.jobDirectory;
+				config.UniFam.name = req.body.projectName;
+				config.UniFam.seqCoverage = req.body.seqCoverage;
+				config.UniFam.hmmCoverage = req.body.hmmCoverage;
+
+				fs.writeFile(
+						path.join(newJob.jobDirectory, configFile ),
+						ini.stringify(config),
+						function(err) {
+
+
+					if (err) {
+						callback(err, null);
+					} else {
+						newJob.statuses.push( { state: 'Job configuration file created', time: new Date().getTime() } );
+						callback(null, 'Job configuration file created');
+					}
+				});
+
+      },
+
+			// Create and copy exec file.
+			function( callback) {
+
+				console.dir(newJob);
+
+				// Get the template
+				var execTemplate =  _.template(fs.readFileSync(execTemplateFile));
+
+				console.log(execTemplate);
+
+				//Compile the text
+				var execFileContents = execTemplate( {
+					name: req.body.projectName
+					, pbsQ: CONFIG.configuration.pbsQ
+					, cpu: CONFIG.configuration.cpu
+					, workdir: newJob.jobDirectory
+					, sourceLocation: CONFIG.configuration.sourceLocation
+					, inputFileName:  path.join(newJob.jobDirectory, newJob.inputFile.name)
+					, id: newJob.id
+					, server: CONFIG.configuration.server
+				});
+
+				// Write to the file.
+			  var execFilePath = path.join(newJob.jobDirectory, execFile);
+				fs.writeFileSync(execFilePath, execFileContents);
+
+				// Make it executable
+				fs.chmodSync(path.join( newJob.jobDirectory, execFile), '755');
+
+				callback(null, 'ok');
 
 			},
 

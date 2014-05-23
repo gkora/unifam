@@ -42,7 +42,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Name</label>  
 									<div class="col-md-6">
-										<input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="">
+										<input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" value='' required="">
 										<span class="help-block">Please enter your name</span>  
 									</div>
 								</div>
@@ -51,7 +51,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="email">Email</label>  
 									<div class="col-md-6">
-										<input id="email" name="email" type="text" placeholder="Email" class="form-control input-md" required="">
+										<input id="email" name="email" type="text" placeholder="Email" class="form-control input-md" value='' required="">
 										<span class="help-block">Please enter you email, used for tracking your job</span>  
 									</div>
 								</div>
@@ -60,7 +60,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="org">Organization</label>  
 									<div class="col-md-6">
-										<input id="org" name="org" type="text" placeholder="Organization" class="form-control input-md">
+										<input id="org" name="org" type="text" placeholder="Organization" value='' class="form-control input-md">
 										<span class="help-block">Please enter your school or organization</span>  
 									</div>
 								</div>
@@ -103,25 +103,6 @@
 									</div>
 								</div> -->
 
-
-								<div id='prodigalOption'>
-									<br/>
-									<h4 style='padding-left:100px;'> Prodigal Options</h4>
-									<br/>
-									<!-- Text input-->
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="translationTable">Translation Table</label>  
-										<div class="col-md-6">
-											<select id="translationTable" name="translationTable" class="form-control">
-												<option value="04">04</option>
-												<option value="11">11</option>
-												<option value="25">25</option>
-											</select>
-										</div>
-									</div>
-
-									<hr>
-								</div>
 
 								<br/>
 								<h4 style='padding-left:100px;'> UniFam Options</h4>
@@ -244,20 +225,16 @@
 <script src="js/jquery.validate.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script>
-$('#jobInputs').validate();
-$('#jobType').on('change', function() {
-		if ( this.value === 'single' || this.value === 'meta') {
-			$('#prodigalOption').show();
-		} else {
-			$('#prodigalOption').hide();
-		}
+	$('#jobInputs').validate();
+	$('#jobType').on('change', function() {
 
-		if ( this.value === 'single' ) {
-			$('#pathOption').show();
-		} else {
-			$('#pathOption').hide();
-		}
-});
+			if ( this.value === 'single' ) {
+				$('#pathOption').show();
+			} else {
+				$('#pathOption').hide();
+			}
+	});
+	$('#projectName').val('run' + $.now());
 </script>
 
 </body>

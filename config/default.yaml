@@ -10,4 +10,18 @@ System:
       subject: 'UniFam: New Job Request'
   Database:
     location: '/database/unifam.db'
+  configuration:
+    configFileName: 'config.cfg'
+    prodigalPath: '/home/cjg/tools/prodigal'
+    RNAmmerPath: '/home/cjg/tools/rnammer/rnammer'
+    tRNAscanPath: '/usr/local/bin/'
+    output: '/dev/null'
+    hmmsearchPath: '/usr/local/bin/hmmsearch'
+    cpu: 2
+    PathoLogicPath: '/usr/local/bin/pathway-tools'
+    PathwayLocalDir: '/data/ptools-local/pgdbs/user/'
+    dataDir: '/data/UniFam/'
+    sourceLocation: '/home/cjg/tools/UniFam/src/UniFam.py'
+    server: 'http://unifam.ornl.gov/done'
+    pbsQ: 'large'
 
