@@ -127,7 +127,7 @@
 
 								<!-- Text input-->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="hmmCoverage">HMM Coverage 1</label>  
+									<label class="col-md-3 control-label" for="hmmCoverage">HMM Coverage</label>  
 									<div class="col-md-6">
 										<input id="hmmCoverage" name="hmmCoverage" type="text" placeholder="" value='0.5' class="form-control input-md">
 										<span class="help-block">HMM coverage of the aligned regioin in HMM search</span>  
@@ -184,7 +184,7 @@
 
 									<!-- Text input-->
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="taxId">NCBI Taxonomy Id</label>  
+										<label class="col-md-3 control-label" for="taxId">NCBI Taxonomy ID</label>  
 										<div class="col-md-6">
 											<input id="taxId" name="taxId" type="text" placeholder="" value='Unknown' class="form-control input-md">
 										</div>
@@ -221,9 +221,9 @@
 </footer>
 
 <!-- JavaScript -->
-<script src="js/jquery-1.10.2.js"></script>
-<script src="js/jquery.validate.min.js"></script>
-<script src="js/bootstrap.js"></script>
+<script src="/js/jquery-1.10.2.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/bootstrap.js"></script>
 <script>
 	$('#jobInputs').validate();
 	$('#jobType').on('change', function() {
@@ -235,6 +235,14 @@
 			}
 	});
 	$('#projectName').val('run' + $.now());
+	$( "#jobInputs" ).validate({
+		rules: {
+			name: {
+				required: true,
+				range: [0, 9]
+			}
+		}
+	});
 </script>
 
 </body>

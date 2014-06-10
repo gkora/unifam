@@ -12,6 +12,10 @@ var path	 = require('path');
 var mail 	 = require('nodemailer');
 var fs 	 	 = require('fs-extra');
 var ini    = require('ini');
+var spawn  = require('child_process').execFile;
+var executionOutput = 'executionOutput.log';
+var executionError = 'executionError.log';
+
 
 var Datastore = require('nedb')
   , db = new Datastore({ filename: path.join(__dirname, '../', CONFIG.Database.location), autoload: true });
@@ -247,6 +251,23 @@ exports.jobpost = function(req, res) {
 						callback(null, 'New job saved to the DB');
 					}
 				});
+			},
+			function(callback) {
+				var outFile = fs.openSync(path.join(newJob.jobDirectory, executionOutput), 'a');
+				var errFile = fs.openSync(path.join(newJob.jobDetails.jobDirectory, executionError), 'a');
+
+				var startTime = Date.now();
+
+
+				var exec = spawn( searchExecPath,null,
+						{
+							cwd: newJob.jobDirectory
+					,detached: true
+					,stdio: [ 'ignore', outFile, errFile]
+						});
+
+				callback( null, exec.pid);
+
 			}
 			], 
 			function(error, results) {
