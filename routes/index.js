@@ -238,6 +238,9 @@ exports.jobpost = function(req, res) {
 				// Make it executable
 				fs.chmodSync(path.join( newJob.jobDirectory, execFile), '755');
 
+				// Add status for job starting
+				newJob.statuses.push( { state: 'Job started', time: new Date().getTime() } );
+
 				callback(null, 'ok');
 
 			},
@@ -254,12 +257,12 @@ exports.jobpost = function(req, res) {
 			},
 			function(callback) {
 				var outFile = fs.openSync(path.join(newJob.jobDirectory, executionOutput), 'a');
-				var errFile = fs.openSync(path.join(newJob.jobDetails.jobDirectory, executionError), 'a');
+				var errFile = fs.openSync(path.join(newJob.jobDirectory, executionError), 'a');
 
 				var startTime = Date.now();
 
 
-				var exec = spawn( searchExecPath,null,
+				var exec = spawn( path.join(newJob.jobDirectory, execFile) ,null,
 						{
 							cwd: newJob.jobDirectory
 					,detached: true
@@ -281,6 +284,45 @@ exports.jobpost = function(req, res) {
 
 };
 
+exports.done = function(req, res){
+
+	var state = { state: 'Job complete', time: new Date().getTime() };
+	db.update({ id: req.body.id }, { $push: { statuses: state } }, {}, function (error, numUpdated) {
+		if (error) {
+			console.log(err + ' : Error registering the job completion');
+			res.send(503);
+		} else {
+			console.log('Job Ended; Number of updated rows = ' + numUpdated );
+			db.findOne({ id: req.body.id }, function (err, doc) {
+				if ( err ) {
+					console.log("Error: couldn't not find the user");
+					res.send(200);
+				} else {
+					// End an email to the user, use jobEndTemplate
+					var body = _.template(CONFIG.SMTP.jobEndTemplate.content, { 'name': doc.name,'id': req.body.id});
+					var mailOptions = {
+						from: CONFIG.SMTP.from,
+						to: doc.email,
+						subject: CONFIG.SMTP.jobEndTemplate.subject,
+						html: body
+					}
+					transport.sendMail(mailOptions, function(err, response){
+						if(err){
+							console.log("Error: couldn't send the email, SMTP error");
+							res.send(200);
+						}else{
+							console.log("Job completion job sent to the user");
+							res.send(200);
+						}
+					}); // End of email sending
+				}
+
+			}); // End of find job id
+
+		}
+	}); // End of job update
+};
+
 exports.downloads = function(req, res){
   res.render('downloads'); 
 };
@@ -290,9 +332,56 @@ exports.locate = function(req, res){
 };
 
 exports.locatepost = function(req, res){
-  res.render('locateStatus', {id: req.body.id}); 
+
+	db.findOne({ id: req.body.id }, function (err, doc) {
+
+		if ( err ) {
+			console.log(err);
+			res.render('locateStatus', {id: null, job: null}); 
+		} else {
+			if ( doc ) {
+			res.render('locateStatus', {id: req.body.id, job: doc}); 
+			} else {
+				res.render('locateStatus', {id: null, job: null}); 
+			}
+		}
+	});
+
 };
 
 exports.locateWithId = function(req, res){
-  res.render('locateStatus', {id: req.params.id}); 
+	console.log("\"" + req.params.id + "\"");
+	db.findOne({ id: req.params.id }, function (err, doc) {
+
+		console.dir(err)
+		console.dir(doc);
+
+		if ( err ) {
+			console.log(err);
+			res.render('locateStatus', {id: null, job: null}); 
+		} else {
+			if ( doc !== null || doc !== undefined ) {
+				res.render('locateStatus', {id: req.params.id, job: doc}); 
+			} else {
+				res.render('locateStatus', {id: null, job: null}); 
+			}
+		}
+	});
+};
+
+exports.resultsWithId = function(req, res){
+	
+	db.findOne({ id: req.params.id }, function (err, doc) {
+		if ( err ) {
+			console.log(err);
+			res.render('results', {id: null, job: null}); 
+		} else {
+			if ( doc ) {
+				var files = fs.readdirSync(doc.jobDirectory);
+				res.render('results', {id: req.params.id, job: doc, files: files}); 
+			} else {
+				res.render('results', {id: null, job: null}); 
+			}
+		}
+	});
 };

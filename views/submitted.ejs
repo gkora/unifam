@@ -34,26 +34,20 @@
 							Email sent to <%= job.email %> with URL to track progress.<br/><br/>
 							<h2> Current Status </h2>
 							<center>
-								<table class='text-center pull-center'>
-									<tr>
-										<td class='text-success'><i class="fa fa-check-square-o"></i></td>
-										<td style='padding:0 30px 0 30px;'><i class="fa fa-arrow-right"></i></td>
-										<td class='text-muted'><i class="fa fa-square-o"></i></td>
-										<td style='padding:0 30px 0 30px;'><i class="fa fa-arrow-right"></i></td>
-										<td class='text-muted'><i class="fa fa-square-o"></i></td>
-										<td style='padding:0 30px 0 30px;'><i class="fa fa-arrow-right"></i></td>
-										<td class='text-muted'><i class="fa fa-square-o"></i></td>
-									</tr>
-									<tr>
-										<td class='text-success'>Job Submitted</td>
-										<td>&nbsp;</td>
-										<td class='text-muted'>Job In Queue</td>
-										<td>&nbsp;</td>
-										<td class='text-muted'>Job In Execution</td>
-										<td>&nbsp;</td>
-										<td class='text-muted'>Job Execution Complete</td>
-									</tr>
-								</table>
+								<h6> Current Status </h6><br/>
+									<%
+									for (var i = 0; i < job.statuses.length; i++) {
+										var status = job.statuses[i];
+									%>
+										<div class='text-left col-sm-offset-4'>
+											<span class='text-success'><%= moment(status.time).fromNow() %> <i class="fa fa-check-circle"></i> </span> &nbsp; &nbsp; &nbsp; &nbsp;     <%= status.state %>
+											<br/>
+											<% if ( i !== job.statuses.length - 1  ) { %>
+											&nbsp; &nbsp; &nbsp; &nbsp;     <i class="fa fa-arrow-down"></i>
+											<% } %>
+											<br/>
+										</div>
+									<% } %>
 							</center>
 
 

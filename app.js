@@ -10,6 +10,8 @@ var path = require('path');
 
 var app = express();
 
+app.locals.moment = require('moment');
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -33,10 +35,15 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/job', routes.job);
 app.post('/job', routes.jobpost);
+app.post('/done', routes.done);
+
 app.get('/locate/:id', routes.locateWithId);
-app.get('/downloads', routes.downloads);
 app.get('/locate', routes.locate);
 app.post('/locate', routes.locatepost);
+
+app.get('/results/:id', routes.resultsWithId);
+
+app.get('/downloads', routes.downloads);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -8,6 +8,9 @@ System:
     jobReceiveTemplate: 
       content: "<html><body><h2>Hello <%= name %></h2> <p>Thank you for using UniFam resources to annotate you proteins.</p> <p>Your job is submitted to the system. The system will execute your job once the resources are available.</p> <p> You can retrieve your submitted job using this URL <a href='http://unifam.ornl.gov/locate/<%= id %>' target='_blank'>http://unifam.ornl.gov/locate/<%= id %></a></p> <p>You job Id is <%= id %></p> Thank you,<br/> UniFam Team.</body></html>"
       subject: 'UniFam: New Job Request'
+    jobEndTemplate: 
+      content: "<html><body><h2>Hello <%= name %>,</h2> <p>Thank you for using UniFam resources to annotate you proteins.</p> <p>Your job is completed. </p><p> Please use the following link to access your results.<br/><br/><a href='http://unifam.ornl.gov/results/<%=id %>' target='_blank'>http://unifam.ornl.gov/results/<%= id %></a></p> <br/><br/>Thank you,<br/> UniFam Team.</body></html>"
+      subject: 'UniFam: Job Complete'
   Database:
     location: '/database/unifam.db'
   configuration:

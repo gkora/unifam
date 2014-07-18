@@ -22,50 +22,49 @@
         <div class="box">
           <div>
             <hr>
-            <h2 class="intro-text text-center">Searching <strong>Job</strong></h2>
+            <h2 class="intro-text text-center">Job <strong>Results</strong></h2>
             <hr>
 						<div class='text-center'>
 							<%
 							if (id) {
 								var dd = moment(job.submitTime).fromNow();
 							%>
-							<strong>Job Found</strong><br/>
-							Submited <%= dd %> <br/></br>
+							Submited <span class="label label-primary"><%= dd %> </span> <br/></br>
 							
 							<div> <!-- job inputs -->
-								<h5>Job Inputs</h5>
+								Job Id <strong><%= job.id %></strong>
 								<div>
-
 									<br/>
 									Name <strong><%= job.name %> </strong>  <span class='small muted'><%= job.org %> </span> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
 									Email <strong><%= job.email %></strong> 
-									<br/> <br/> <br/>
-
-									<a href="/results/<%= id %>" class="btn btn-success btn-lg">Job Results</a>
 									<br/> <br/> <br/>
 								</div>
 
 							</div> <!-- job inputs -->
 							<div> <!-- start of current status -->
-								<h6> Current Status </h6><br/>
+								<h6> Downloadable Job Files </h6><br/>
 									<%
-									console.log(job.statuses);
-									for (var i = 0; i < job.statuses.length; i++) {
-										var status = job.statuses[i];
-										console.log(status);
+									for (var i = 0; i < files.length; i++) {
+									if ( files[i] !== 'exec.sh' && 
+											 files[i] !== 'viz.sh' &&
+											 files[i] !== 'filter.sh'
+											 ) {
+
+											 if (files[i].indexOf(".group") > -1 ) continue;
+											 if (files[i].indexOf(".domtab") > -1 ) continue;
 									%>
-										<div class='text-left col-sm-offset-4'>
-											<span class='text-success'><%= moment(status.time).fromNow() %> <i class="fa fa-check-circle"></i> </span> &nbsp; &nbsp; &nbsp; &nbsp;     <%= status.state %>
+										<div class='text-left col-sm-offset-5'>
+											<a href='/userData/<%= id %>/<%= files[i] %>'>
+											<%= i + 1 %>. 
+											&nbsp; 
+											<%= files[i] %> <i class="fa fa-cloud-download"> </i></a>
 											<br/>
-											<% if ( i !== job.statuses.length - 1  ) { %>
-											&nbsp; &nbsp; &nbsp; &nbsp;     <i class="fa fa-arrow-down"></i>
-											<% } %>
 											<br/>
 										</div>
-									<% } %>
+										<% }} %>
 							</div>
 								<% } else { %>
-								<strong>Job Not Found</strong>, Please contact UniFam support. <br/><br/>
+								<strong>Job not found</strong>, Please contact UniFam team for support. <br/><br/>
 
 							</div>
 							<!-- End of current status -->
@@ -85,6 +84,8 @@
 <!-- JavaScript -->
 <script src="/js/jquery-1.10.2.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script>
+</script>
 
 </body>
 </html>
