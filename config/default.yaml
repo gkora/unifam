@@ -1,6 +1,6 @@
 
 System:
-  userDataLocation: '/home/gku/active/userData'
+  userDataLocation: '/data/userData'
   SMTP:
     server: 'smtp.ornl.gov'
     from: 'UniFam <donotreply@ornl.gov>'
