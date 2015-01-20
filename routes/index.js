@@ -161,6 +161,7 @@ exports.jobpost = function(req, res) {
 				config.UniFam.dataDir = CONFIG.configuration.dataDir;
 				config.UniFam.doParse = 'True';
 				config.UniFam.dohmmsearch = 'True';
+				config.UniFam.doPathway = 'True';
 				if ( req.body.jobType === 'single' || req.body.jobType === 'meta' || req.body.jobType === 'pp' ) {
 					config.UniFam.database = 'prok';
 				} else if ( req.body.jobType === 'ep' ){
@@ -178,11 +179,9 @@ exports.jobpost = function(req, res) {
 				}
 
 				if ( req.body.jobType === 'single' ) {
-					config.UniFam.doPathway = 'True';
 					config.UniFam.doRNAmmer = 'True';
 					config.UniFam.dotRNAscan = 'True';
 				} else {
-					config.UniFam.doPathway = 'False';
 					config.UniFam.doRNAmmer = 'False';
 					config.UniFam.dotRNAscan = 'False';
 				}
