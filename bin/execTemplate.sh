@@ -16,7 +16,7 @@ echo Running on host `hostname`
 echo Starting Time is `date`
 echo Directory is `pwd`
 
-python <%= sourceLocation %> -i <%= inputFileName %> -c  config.cfg  > <%= inputFileName %>.log
+python <%= sourceLocation %> -i "<%= inputFileName %>" -c  config.cfg  > <%= inputFileName %>.log 
 
 echo Ending Time is `date`
 

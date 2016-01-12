@@ -135,7 +135,7 @@ exports.jobpost = function(req, res) {
 
 				//[RNAmmer]
 				config.RNAmmer= {};
-				config.RNAmmer.tRNAscanPath = CONFIG.configuration.RNAmmerPath;
+				config.RNAmmer.RNAmmerPath = CONFIG.configuration.RNAmmerPath;
 
 				//[tRNAscan]
 				config.tRNAscan= {};
@@ -182,8 +182,8 @@ exports.jobpost = function(req, res) {
 					config.UniFam.doRNAmmer = 'True';
 					config.UniFam.dotRNAscan = 'True';
 				} else {
-					config.UniFam.doRNAmmer = 'False';
-					config.UniFam.dotRNAscan = 'False';
+					config.UniFam.doRNAmmer = 'True';
+					config.UniFam.dotRNAscan = 'True';
 				}
 
 				config.UniFam.workDir = newJob.jobDirectory;

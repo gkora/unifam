@@ -24,7 +24,7 @@ System:
     PathoLogicPath: '/usr/local/bin/pathway-tools'
     PathwayLocalDir: '/data/ptools-local/pgdbs/user/'
     dataDir: '/data/UniFam/'
-    sourceLocation: '/home/cjg/tools/UniFam/src/UniFam.py'
+    sourceLocation: '/home/cjg/tools/unifam/src/UniFam.py'
     server: 'http://unifam.ornl.gov/done'
     pbsQ: 'large'
 
