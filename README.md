@@ -17,17 +17,25 @@ npm install
 
 ## Development
 
-* To monitor and develop
-	cd <development dir>
-	./mon
+```bash
+# To monitor and develop
+cd unifam
+./mon
+```
 
 ## Production
 
-* To start forever
-	cd unifam
-	./daemon.sh
+Starting the server
 
-* To stop already started forever process
-	cd unifam
-	./daemon-stop.sh
+```bash
+# To start Server 
+cd unifam
+./daemon.sh
+```
+Stopping the server
 
+```bash
+# To stop Server 
+cd unifam
+./daemon-stop.sh
+```
